@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.entity.Train;
@@ -30,11 +32,16 @@ public class GlobalTrainDisplayData {
 	}
 
 	public static List<TrainDeparturePrediction> prepare(String filter, int maxLines) {
-		String regex = filter.isBlank() ? filter : "\\Q" + filter.replace("*", "\\E.*\\Q") + "\\E";
+		try {
+            Pattern.compile(filter);
+        } catch (PatternSyntaxException e) {
+            filter = filter.isBlank() ? filter : "\\Q" + filter.replace("*", "\\E.*\\Q") + "\\E";
+        }
+		
 		return statusByDestination.entrySet()
 			.stream()
 			.filter(e -> e.getKey()
-				.matches(regex))
+				.matches(filter))
 			.flatMap(e -> e.getValue()
 				.stream())
 			.sorted()
