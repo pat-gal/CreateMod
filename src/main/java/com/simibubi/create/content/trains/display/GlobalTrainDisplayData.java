@@ -37,11 +37,12 @@ public class GlobalTrainDisplayData {
         } catch (PatternSyntaxException e) {
             filter = filter.isBlank() ? filter : "\\Q" + filter.replace("*", "\\E.*\\Q") + "\\E";
         }
-		
+
+		String finalFilter = filter;
 		return statusByDestination.entrySet()
 			.stream()
 			.filter(e -> e.getKey()
-				.matches(filter))
+				.matches(finalFilter))
 			.flatMap(e -> e.getValue()
 				.stream())
 			.sorted()

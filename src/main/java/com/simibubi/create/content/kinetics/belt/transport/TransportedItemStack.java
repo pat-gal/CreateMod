@@ -31,6 +31,10 @@ public class TransportedItemStack implements Comparable<TransportedItemStack> {
 		insertedFrom = Direction.UP;
 	}
 
+	public float getTargetSideOffset() {
+		return 0;
+	}
+
 	@Override
 	public int compareTo(TransportedItemStack o) {
 		return beltPosition < o.beltPosition ? 1 : beltPosition > o.beltPosition ? -1 : 0;
