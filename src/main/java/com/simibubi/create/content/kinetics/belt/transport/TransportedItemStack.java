@@ -1,7 +1,5 @@
 package com.simibubi.create.content.kinetics.belt.transport;
 
-import java.util.Random;
-
 import com.simibubi.create.content.kinetics.belt.BeltHelper;
 import com.simibubi.create.content.kinetics.fan.FanProcessing;
 
@@ -10,8 +8,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
 public class TransportedItemStack implements Comparable<TransportedItemStack> {
-
-	private static Random R = new Random();
 
 	public ItemStack stack;
 	public float beltPosition;
@@ -30,14 +26,9 @@ public class TransportedItemStack implements Comparable<TransportedItemStack> {
 
 	public TransportedItemStack(ItemStack stack) {
 		this.stack = stack;
-		boolean centered = BeltHelper.isItemUpright(stack);
-		angle = centered ? 180 : R.nextInt(360);
-		sideOffset = prevSideOffset = getTargetSideOffset();
+		angle = 180;
+		sideOffset = prevSideOffset = 0;
 		insertedFrom = Direction.UP;
-	}
-
-	public float getTargetSideOffset() {
-		return (angle - 180) / (360 * 3f);
 	}
 
 	@Override
