@@ -42,8 +42,9 @@ public class StationSummaryDisplaySource extends DisplaySource {
 
 	@Override
 	public List<List<MutableComponent>> provideFlapDisplayText(DisplayLinkContext context, DisplayTargetStats stats) {
-		String filter = context.sourceConfig()
-			.getString("Filter");
+		CompoundTag conf = context.sourceConfig();
+		String filter = conf.getString("Filter");
+		int platformWidth = conf.getInt("PlatformColumn");
 		boolean hasPlatform = filter.contains("*");
 
 		List<List<MutableComponent>> list = new ArrayList<>();
@@ -84,9 +85,10 @@ public class StationSummaryDisplaySource extends DisplaySource {
 				for (String string : filter.split("\\*"))
 					if (!string.isEmpty())
 						platform = platform.replace(string, "");
-				platform = platform.replace("*", "?");
+				platform = platform.replace("*", "?").trim();
+				platform = platform.substring(Math.max(0, platform.length() - platformWidth));
 
-				lines.add(Components.literal(platform.trim()));
+				lines.add(Components.literal(platform));
 				list.add(lines);
 			});
 
