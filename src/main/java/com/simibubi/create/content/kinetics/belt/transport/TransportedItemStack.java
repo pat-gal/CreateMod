@@ -1,7 +1,7 @@
 package com.simibubi.create.content.kinetics.belt.transport;
 
 import com.simibubi.create.content.kinetics.belt.BeltHelper;
-import com.simibubi.create.content.kinetics.fan.FanProcessing;
+import com.simibubi.create.content.kinetics.fan.processing.FanProcessingType;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -21,7 +21,7 @@ public class TransportedItemStack implements Comparable<TransportedItemStack> {
 	public float prevBeltPosition;
 	public float prevSideOffset;
 
-	public FanProcessing.Type processedBy;
+	public FanProcessingType processedBy;
 	public int processingTime;
 
 	public TransportedItemStack(ItemStack stack) {
