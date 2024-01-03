@@ -32,11 +32,17 @@ public class GlobalTrainDisplayData {
 	}
 
 	public static List<TrainDeparturePrediction> prepare(String filter, int maxLines) {
-		try {
-            Pattern.compile(filter);
-        } catch (PatternSyntaxException e) {
-            filter = filter.isBlank() ? filter : "\\Q" + filter.replace("*", "\\E.*\\Q") + "\\E";
-        }
+		if(filter.matches("[a-zA-Z0-9\\s]*\\*"))
+			filter = "\\Q" + filter.replace("*", "\\E.*\\Q") + "\\E";
+		else{
+			try {
+				Pattern.compile(filter);
+			} catch (PatternSyntaxException e) {
+				filter = filter.isBlank() ? filter : "\\Q" + filter.replace("*", "\\E.*\\Q") + "\\E";
+			}
+		}
+
+
 
 		String finalFilter = filter;
 		return statusByDestination.entrySet()

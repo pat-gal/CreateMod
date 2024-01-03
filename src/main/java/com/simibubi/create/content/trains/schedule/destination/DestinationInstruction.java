@@ -1,6 +1,8 @@
 package com.simibubi.create.content.trains.schedule.destination;
 
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -44,12 +46,18 @@ public class DestinationInstruction extends TextScheduleInstruction {
 	public String getFilter() {
 		return getLabelText();
 	}
-	
+
 	public String getFilterForRegex() {
 		String filter = getFilter();
-		if (filter.isBlank())
+		if(filter.matches("[a-zA-Z0-9\\s]*\\*"))
+			return "\\Q" + filter.replace("*", "\\E.*\\Q") + "\\E";
+
+		try {
+			Pattern.compile(filter);
 			return filter;
-		return "\\Q" + filter.replace("*", "\\E.*\\Q") + "\\E";
+		} catch (PatternSyntaxException e) {
+			return filter.isBlank() ? filter : "\\Q" + filter.replace("*", "\\E.*\\Q") + "\\E";
+		}
 	}
 
 	@Override
